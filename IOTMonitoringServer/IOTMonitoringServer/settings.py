@@ -27,7 +27,7 @@ SECRET_KEY = '21r0^_rlli=9m=i6zch3_(9(_&so@otsa$413oa1*dqrjk1h%*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "ip.maquina.visualizador"]
+ALLOWED_HOSTS = ["*", ]
 
 
 # Application definition
@@ -95,8 +95,8 @@ DATABASES = {
         "NAME": "iot_data",  # Nombre de la base de datos
         "USER": "dbadmin",  # Nombre de usuario
         "PASSWORD": "uniandesIOT1234*",  # Contraseña
-        "HOST": "ip.maquina.db",  # Dirección IP de la base de datos
-        "PORT": "",  # Puerto de la base de datos
+        "HOST": "localhost",  # Dirección IP de la base de datos
+        "PORT": "5432",  # Puerto de la base de datos
     }
 }
 
@@ -155,7 +155,7 @@ LOGOUT_REDIRECT_URL = '/login/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Dirección del bróker MQTT
-MQTT_HOST = "ip.maquina.mqtt"
+MQTT_HOST = "localhost"
 
 # Puerto del bróker MQTT
 MQTT_PORT = 8082
