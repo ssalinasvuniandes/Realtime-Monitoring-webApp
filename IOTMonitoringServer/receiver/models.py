@@ -1,36 +1,38 @@
 from django.db import models, IntegrityError
-from django.db.models.fields import DateTimeField
-from datetime import datetime, timedelta
+from datetime import datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from typing import Any, MutableMapping, Optional
-import psycopg2
 
+# ---------------------------------------------------------------------------------------
 
 class City(models.Model):
     name = models.CharField(max_length=50, unique=True, blank=False)
     code = models.CharField(max_length=50, null=True)
 
-    def str(self):
-        return "{}".format(self.name)
+    def __str__(self):
+        return f"{self.name}"
 
+# ---------------------------------------------------------------------------------------
 
 class State(models.Model):
     name = models.CharField(max_length=50, unique=False, blank=False)
     code = models.CharField(max_length=50, null=True)
 
-    def str(self):
-        return "{}".format(self.name)
+    def __str__(self):
+        return f"{self.name}"
 
+# ---------------------------------------------------------------------------------------
 
 class Country(models.Model):
     name = models.CharField(max_length=50, unique=False, blank=False)
     code = models.CharField(max_length=50, null=True)
 
-    def str(self):
-        return "{}".format(self.name)
+    def __str__(self):
+        return f"{self.name}"
 
+# ---------------------------------------------------------------------------------------
 
 class Location(models.Model):
     description = models.CharField(max_length=200, blank=True)
@@ -46,9 +48,10 @@ class Location(models.Model):
     class Meta:
         unique_together = ("city", "state", "country")
 
-    def str(self):
-        return "{} {} {}".format(self.city.name, self.state.name, self.country.name)
+    def __str__(self):
+        return f"{self.city.name} - {self.country.name} - {self.state.name}"
 
+# ---------------------------------------------------------------------------------------
 
 class Measurement(models.Model):
     name = models.CharField(max_length=50, blank=False)
@@ -57,9 +60,10 @@ class Measurement(models.Model):
     min_value = models.FloatField(null=True, blank=True, default=None)
     active = active = models.BooleanField(default=True)
 
-    def str(self):
-        return "{} {}".format(self.name, self.unit)
+    def __str__(self):
+        return f"{self.name} - {self.unit}"
 
+# ---------------------------------------------------------------------------------------
 
 class Station(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
@@ -72,9 +76,10 @@ class Station(models.Model):
     last_activity = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
 
-    def str(self):
-        return "%s %s %s" % (self.user, self.location, self.last_activity)
+    def __str__(self):
+        return f"{self.user} - {self.location} - {self.last_activity}"
 
+# ---------------------------------------------------------------------------------------
 
 class DataQuerySet(models.query.QuerySet):
 
@@ -94,11 +99,13 @@ class DataQuerySet(models.query.QuerySet):
             data.save()
             return data, True
 
+# ---------------------------------------------------------------------------------------
 
 class DataManager(models.Manager):
     def get_queryset(self):
         return DataQuerySet(self.model)
 
+# ---------------------------------------------------------------------------------------
 
 class Data(models.Model):
 
@@ -171,3 +178,5 @@ class Data(models.Model):
             "max_value": self.max_value,
             "avg_value": self.avg_value,
         }
+
+# ---------------------------------------------------------------------------------------
