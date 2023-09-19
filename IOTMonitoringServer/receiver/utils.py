@@ -1,5 +1,4 @@
 from datetime import datetime
-from django.utils import timezone
 from typing import Tuple
 from django.contrib.auth.models import User
 import requests
@@ -150,7 +149,12 @@ def create_data(
     data.values = values
     data.times = times
 
+    print("Save Data")
     data.save()
+    print("Done!")
     station.last_activity = time
+    print("Save Station")
     station.save()
+    print("Done!")
+    
     return data
