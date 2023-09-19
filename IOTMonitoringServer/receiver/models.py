@@ -146,6 +146,7 @@ class Data(models.Model):
         try:
             super().save(*args, **kwargs)
         except IntegrityError as exception:
+            print(f"Error : {exception}")
             # Solo maneja el error:
             #   psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "procesor_data_time_pkey"
             #   DETAIL:  Key ("time")=(2020-10-01 22:33:52.507782+00) already exists.
